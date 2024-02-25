@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midterm Game Development Engines</title>
+    <script type="text/javascript" src="https://www.x3dom.org/download/1.8.2/x3dom.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://www.x3dom.org/download/1.8.2/x3dom.css"/>
+
+    <style>
+
+      #texture {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 100;
+      }
+
+      body, html, x3d{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+    </style>
+    
+</head>
+
+<body>
+    <x3d>
+        <Scene>
+
+          <!-- the navigation and the camera positioning (had help from the X3DOM tutorials) -->
+          <NavigationInfo type="WALK"></NavigationInfo>
+
+          <Viewpoint position="-7.18447 1.59731 4.30658" orientation="-0.01657 -0.99974 -0.01566 1.51459" 
+	        zNear="0.00298" zFar="29.84489" centerOfRotation="0.00000 0.00000 0.00000" fieldOfView="0.78540" description=""></Viewpoint> 
+
+            <inline url="stylish_apartment_modified.glb"></inline>
+            
+            <Transform translation="2.65 0.2 -2.33" scale="0.2 0.2 0.2">
+              <Shape id="ball">
+                <Appearance>
+                  <ImageTexture url="closeup-basketball.jpg"></ImageTexture>
+                </Appearance>
+                <Sphere size="0.05 0.05 0.05"></Sphere>
+              </Shape>
+            </Transform>
+
+            <Transform translation="-2.45 1.37 2.45">
+              <Shape onclick="lightsOnOff('livingRoom')">
+                <Appearance>
+                  <Material diffuseColor="#900C3F"></Material>
+                </Appearance>
+                <Box size="0.09 0.09 0.1"></Box>
+              </Shape>
+            </Transform>
+
+
+            <Transform translation="-0.23 1.38 -3.20">
+              <Shape onclick="BedLights()">
+                <Appearance>
+                  <Material diffuseColor="#900C3F"></Material>
+                </Appearance>
+                <Box size="0.1 0.09 0.05"></Box>
+              </Shape>
+            </Transform>
+
+
+            <Transform translation="-0.64 1.38 4.9">
+              <Shape onclick="lightsOnOff('kitchen')">
+                <Appearance>
+                  <Material diffuseColor="#900C3F"></Material>
+                </Appearance>
+                <Box size="0.1 0.09 0.05"></Box>
+              </Shape>
+            </Transform>
+
+
+            <Transform translation="-3.34 1.38 6.03">
+              <Shape onclick="lightsOnOff('bathroom')">
+                <Appearance>
+                  <Material diffuseColor="#900C3F"></Material>
+                </Appearance>
+                <Box size="0.1 0.09 0.05"></Box>
+              </Shape>
+            </Transform>
+
+
+            <PointLight id='livingRoom' on='FALSE' intensity='0.250' color='1.5 1.5 1.2' location="0.63 2.58 -0.26" attenuation='0 0 0' radius='8.7'></PointLight>
+
+            <PointLight id='bedroom' on='FALSE' intensity='0.250' color='8 7 2' location="-0.45 1.41 -6.55" attenuation='1 1 1' radius='8.4'></PointLight>
+
+            <PointLight id='bedroom1' on='FALSE' intensity='0.250' color='8 7 2' location="1.82 1.4 -6.51" attenuation='1 1 1' radius='8.4'></PointLight>
+
+            <PointLight id='kitchen' on='FALSE' intensity='0.250' color='1.5 1.5 1.2' location="3.18 2.21 6.14" attenuation='0 0 0' radius='8.7'></PointLight>
+
+            <PointLight id='bathroom' on='FALSE' intensity='0.250' color='1.5 1.5 1.2' location="-1.68 1.47 6.34" attenuation='0 0 0' radius='8.7'></PointLight>   
+
+        </Scene>
+
+    </x3d>
+
+    <div id="texture">
+      <button id="texture-button" onclick="changeTheTexture()">Change Texture!</button>
+          <!-- changing the ball's texture function (ball is in the living room) -->
+          <!-- with this function, we can click on the "Change Texture!" button continuously and it will change every time we click it -->
+          <script>
+            var toggleTexture = true;
+            function changeTheTexture(){
+                var shape = document.getElementById("ball");
+                var texture = shape.getElementsByTagName("ImageTexture")[0];
+    
+                if(toggleTexture){
+                  texture.setAttribute("url","football.jpg");
+                  toggleTexture = false;
+                }
+                else{
+                  texture.setAttribute("url", "closeup-basketball.jpg");
+                  toggleTexture = true;
+                }
+            }
+          </script>
+    </div>
+
+      <script>
+          function lightsOnOff(ID){
+              var l = document.getElementById(ID);
+              if(l.getAttribute('on')!='TRUE'){
+                  l.setAttribute('on','TRUE');
+              }
+              else{
+                  l.setAttribute('on','FALSE');
+              }
+          }
+          function BedLights(){
+          lightsOnOff('bedroom')
+          lightsOnOff('bedroom1')
+        }          
+      </script>
+
+    <div id="Credits" style=" position: absolute;   bottom: 0;   left: 0;   width: 100%;   background-color: rgba(0, 0, 0, 0.5); color: #fff;  padding: 10px;  font-size: 14px;  line-height: 1;">
+
+        <h2 style="margin-bottom: 10px;">Credits:</h2>
+
+        <div style="margin-bottom: 10px;">
+
+          <p>Model and Objects:</p>
+          <p> This work is based on "Stylish Apartment" (https://skfb.ly/oCNLs) by SINNIK is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/.) I only changed a few objects using blender.</p>
+          <p>Images:</p>
+          <p>https://www.vecteezy.com/free-vector/football-texture Football Texture Vectors by Vecteezy</p>
+          <p>https://www.freepik.com/free-photo/closeup-basketball_19139203.htm#query=basketball%20texture&position=22&from_view=keyword&track=ais Image by rawpixel.com on Freepik</p>
+        </div>
+    </div>
+</body>
+</html>
